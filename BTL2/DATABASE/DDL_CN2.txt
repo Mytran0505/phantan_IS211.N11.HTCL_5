@@ -453,7 +453,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 5000,
     SALE_PRICE: 8000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Requisite",
     VAT: 2,
     REMAINING_QUANTITY: 25
@@ -467,7 +467,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 3000,
     SALE_PRICE: 5000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Requisite",
     VAT: 2,
     REMAINING_QUANTITY: 27
@@ -481,7 +481,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 10000,
     SALE_PRICE: 15000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Toiletries",
     VAT: 2,
     REMAINING_QUANTITY: 29
@@ -495,7 +495,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 50000,
     SALE_PRICE: 100000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Toiletries",
     VAT: 2,
     REMAINING_QUANTITY: 28
@@ -565,7 +565,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 2000,
     SALE_PRICE: 5000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Toiletries",
     VAT: 2,
     REMAINING_QUANTITY: 30
@@ -593,7 +593,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 5000,
     SALE_PRICE: 8000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Requisite",
     VAT: 2,
     REMAINING_QUANTITY: 25
@@ -607,7 +607,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 3000,
     SALE_PRICE: 5000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Requisite",
     VAT: 2,
     REMAINING_QUANTITY: 27
@@ -621,7 +621,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 10000,
     SALE_PRICE: 15000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Toiletries",
     VAT: 2,
     REMAINING_QUANTITY: 29
@@ -635,7 +635,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 50000,
     SALE_PRICE: 100000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Toiletries",
     VAT: 2,
     REMAINING_QUANTITY: 28
@@ -705,7 +705,7 @@ CREATE (P:PRODUCT
     ORIGINAL_PRICE: 2000,
     SALE_PRICE: 5000,
     MFG: DATE("2022-01-01"),
-    EXP: ,
+    EXP: null,
     PRODUCT_TYPE: "Toiletries",
     VAT: 2,
     REMAINING_QUANTITY: 30
