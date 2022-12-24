@@ -176,6 +176,30 @@ df = [d1,d2]
 result = pd.merge(d1, d2 , on=["P.PRO_ID", "P.PRODUCT_NAME"], how="inner")
 print(result.drop_duplicates())
 
+# In[9]:
+#7. Nhập vào mã nhân viên, cho biết nhân viên đó làm việc tại chi nhánh nào
+from py2neo import Graph
+import pandas as pd
+import numpy as np
+
+cn1 = Graph(uri="bolt://26.116.246.130:7687", auth=("neo4j","123456"))
+cn2 = Graph(uri="bolt://26.198.144.133:7687", auth=("neo4j","123456"))
+
+cypher_text = "MATCH(E: EMPLOYEE) WHERE E.EMP_ID = maNV RETURN E"
+print("Nhập mã nhân viên cần tìm:")
+eID = input()
+cypher_text = cypher_text.replace("maNV",str(eID))
+employee1 = cn1.run(cypher_text).data()
+employee2 = cn2.run(cypher_text).data()
+
+if(len(employee1) > 0):
+    print("Nhân viên có mã " + str(eID) + " làm việc tại CN1")
+else:
+    if(len(employee2) > 0):
+        print("Nhân viên có mã " + str(eID) + " làm việc tại CN2")
+    else:
+        print("Không tìm thấy nhân viên có mã " + str(eID))
+
 
 # In[134]:
 
@@ -267,9 +291,3 @@ import pandas as pd
 import numpy as np
 cn2 = Graph(uri="bolt://26.198.144.133:7687", auth=("neo4j","123456"))
 cn2.run("MATCH (P:PRODUCT {PRO_ID: 400021}) DELETE P").stats()
-
-
-# In[ ]:
-
-
-
