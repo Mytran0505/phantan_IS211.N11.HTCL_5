@@ -1,4 +1,4 @@
-
+# In[1]:
 #import các thư viện sử dụng để phân tán
 from py2neo import Graph
 import pandas as pd
@@ -14,11 +14,8 @@ cn2 = Graph(uri="bolt://26.198.144.133:7687", auth=("neo4j","123456"))
 
 #Các câu truy vấn hoặc dml đều sử dụng trên các biến cn1 và cn2 ở trên
 
-
-# In[22]:
-
 # Lấy dữ liệu qua lại giữa hai máy bằng NoSQL
-
+# In[2]:
 # 1. In ra mã hóa đơn, trị giá các hóa đơn và họ tên nhân viên đã thanh toán những hóa đơn này
 #do khách hàng có tên là "Nguyen Huu Tho"  mua
 from py2neo import Graph
@@ -41,9 +38,7 @@ result = pd.concat(df, ignore_index=True)
 print(result)
 
 
-# In[24]:
-
-
+# In[3]:
 #2. In ra danh sách các sản phẩm (PRO_ID, PRODUCT_NAME) không bán được của nước "USA"
 from py2neo import Graph
 import pandas as pd
@@ -65,9 +60,7 @@ result = pd.concat(df, ignore_index=True)
 print(result.drop_duplicates())
 
 
-# In[90]:
-
-
+# In[4]:
 #3. TÌM SẢN PHẨM ĐƯỢC MUA NHIỀU NHẤT
 from py2neo import Graph
 import pandas as pd
@@ -98,9 +91,7 @@ result = dsort[dsort["SL"] == dsort['SL'].max()]
 print(result)
 
 
-# In[96]:
-
-
+# In[5]:
 #4. Top 5 SẢN PHẨM ĐƯỢC BÁN NHIỀU NHẤT
 from py2neo import Graph
 import pandas as pd
@@ -125,9 +116,7 @@ result = fulldata.sort_values('SL', ascending = False).head(5)
 print(result)
 
 
-# In[109]:
-
-
+# In[6]:
 #5. TÌM TẤT CẢ KHÁCH HÀNG ĐÃ MUA có ít nhất 3 lần và được ít nhất 2 nhân viên khác nhau thanh toán
 from py2neo import Graph
 import pandas as pd
@@ -155,9 +144,7 @@ result = fulldata[(fulldata["NUM_BILL"] >=3) & (fulldata["NUM_EMP"] >=2)]
 print(result)
 
 
-# In[130]:
-
-
+# In[7]:
 #6. Tìm sản phẩm bán được ở cả 2 chi nhánh
 from py2neo import Graph
 import pandas as pd
@@ -176,7 +163,8 @@ df = [d1,d2]
 result = pd.merge(d1, d2 , on=["P.PRO_ID", "P.PRODUCT_NAME"], how="inner")
 print(result.drop_duplicates())
 
-# In[9]:
+
+# In[8]:
 #7. Nhập vào mã nhân viên, cho biết nhân viên đó làm việc tại chi nhánh nào
 from py2neo import Graph
 import pandas as pd
@@ -201,10 +189,9 @@ else:
         print("Không tìm thấy nhân viên có mã " + str(eID))
 
 
-# In[134]:
 
 # Thêm, xóa, sửa qua lại giữa hai máy
-
+# In[9]:
 #Tại máy CN2, thêm customer vào CN1
 from py2neo import Graph
 import pandas as pd
@@ -224,9 +211,7 @@ cn1.run("CREATE(C:CUSTOMER{ \
         SPENT_MONEY: 38760})").stats()
 
 
-# In[137]:
-
-
+# In[10]:
 #Tại máy CN2, XÓA CUSTOMER CÓ MÃ 300021 tại CN1
 from py2neo import Graph
 import pandas as pd
@@ -236,9 +221,7 @@ cn1 = Graph(uri="bolt://26.116.246.130:7687", auth=("neo4j","123456"))
 cn1.run("MATCH (C:CUSTOMER {CUS_ID: 300021}) DELETE C").stats()
 
 
-# In[136]:
-
-
+# In[11]:
 #Tại máy CN2, sửa phone của CUSTOMER CÓ mã 300021 thành 0921231741 tại CN1
 from py2neo import Graph
 import pandas as pd
@@ -248,9 +231,7 @@ cn1 = Graph(uri="bolt://26.116.246.130:7687", auth=("neo4j","123456"))
 cn1.run("MATCH (C:CUSTOMER {CUS_ID: 300021}) SET C.PHONE = '0921231741'").stats()
 
 
-# In[ ]:
-
-
+# In[12]:
 #Tại máy CN1, thêm product vào CN2
 from py2neo import Graph
 import pandas as pd
@@ -269,9 +250,7 @@ cn2.run("CREATE(P:PRODUCT{ \
     EXP: '2023-01-01'})").stats()
 
 
-# In[7]:
-
-
+# In[13]:
 #Tại máy CN1 sửa nước sản xuất của product có mã 400021 ở CN2 thành VN
 from py2neo import Graph
 import pandas as pd
@@ -282,9 +261,7 @@ cn2.run(
     SET P.COUNTRY = 'VN'").stats()
 
 
-# In[8]:
-
-
+# In[17]:
 #Tại máy CN1 xóa product có mã 400021 ở CN2
 from py2neo import Graph
 import pandas as pd
