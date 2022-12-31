@@ -1,0 +1,36 @@
+--c?p nh?t giá ti?n c?a 1 s?n ph?m ? c? hai c?a hàng
+--giám ??c ? cn1 th?c hi?n c?p giá s?n ph?m ? 2 c?a hàng 
+CREATE OR REPLACE PROCEDURE UPDATE_PRICE(MONEY Number, PROID PRODUCT.PRO_ID%TYPE)
+AS
+BEGIN 
+        --CN1
+        UPDATE CN1.PRODUCT SET  SALE_PRICE= SALE_PRICE + MONEY
+        WHERE PRO_ID = PROID;
+        --CN2
+        UPDATE CN2.PRODUCT@giamdoc1_dblink SET SALE_PRICE= SALE_PRICE + MONEY
+        WHERE MaDT = PROID;
+END;
+
+--hi?n th? thông tin 1 s?n ph?m b?t kì ? c?a hàng mình qu?n lý
+--giám ??c ? cn2 xem thông tín s?n ph?m
+CREATE OR REPLACE PROCEDURE PRODUCT_INFO(PROID PRODUCT.PRO_ID%TYPE)
+AS
+    PRO_NAME PRODUCT.PRODUCT_NAME%TYPE;
+    PRO_SALEPRICE PRODUCT.SALE_PRICE%TYPE;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Thông tin s?n ph?m có mã: '|| PROID);
+    SELECT PRODUCT_NAME, SALE_PRICE INTO PRO_NAME, PRO_SALEPRICE
+    FROM PRODUCT
+    WHERE PRO_ID= PROID;
+    DBMS_OUTPUT.PUT_LINE('MADT = ' || PROID ||', NAME ='|| PRO_NAME||', SALE PRICE = '||PRO_SALEPRICE); 
+END;
+
+BEGIN
+    UPDATE_PRICE(2000, 400021);
+END;
+
+BEGIN
+    PRODUCT_INFO(400021);
+END;
+
+SET SERVEROUTPUT ON;

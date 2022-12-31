@@ -56,6 +56,7 @@ grant select on CN1.WAREHOUSE_MANAGEMENT to cn2;
 grant select on CN1.PRODUCT to cn2;
 grant select on CN1.CUSTOMER to cn2;
 grant select on CN1.EMPLOYEE to cn2;
+grant select on CN1.BRANCH to cn2
 --QuanLyKho Xem được thông tin WAREHOUSE_MANAGEMENT, WAREHOUSE_SALES ở chi nhánh 2
 grant select on CN2.WAREHOUSE_MANAGEMENT to QuanLyKho;
 grant select on CN2.WAREHOUSE_SALES to QuanLyKho;
@@ -129,6 +130,7 @@ grant select on CN2.WAREHOUSE_MANAGEMENT to cn1;
 grant select on CN2.PRODUCT to cn1;
 grant select on CN2.CUSTOMER to cn1;
 grant select on CN2.EMPLOYEE to cn1;
+grant select on CN2.BRANCH to cn1
 --QuanLyKho Xem được thông tin WAREHOUSE_MANAGEMENT, WAREHOUSE_SALES ở chi nhánh 1
 grant select on CN1.WAREHOUSE_MANAGEMENT to QuanLyKho;
 grant select on CN1.WAREHOUSE_SALES to QuanLyKho;

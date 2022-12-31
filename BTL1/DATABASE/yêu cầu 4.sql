@@ -1,0 +1,33 @@
+SELECT  /*+ GATHER_PLAN_STATISTICS */ DISTINCT P.PRO_ID, PRODUCT_NAME, STATUS
+FROM	PRODUCT P, WAREHOUSE_SALES WS, BILL B,
+        BILL_DETAILS BDT, BRANCH BR
+WHERE	BR.BRANCH_ID = WS.BRANCH_ID AND
+		WS.PRO_ID = P.PRO_ID AND
+		P.PRO_ID = BDT.PRO_ID AND
+		BDT.BILL_ID = B.BILL_ID AND
+		BR.BRANCH_NAME = 'Mini mart Quan 9' AND
+		EXTRACT(YEAR FROM BILL_DATE) = 2022 AND EXTRACT(MONTH FROM BILL_DATE) = 3 
+        AND  AMOUNT > 2;
+        
+SELECT * FROM TABLE(DBMS_XPLAN.display_cursor(format=>'ALLSTATS LAST'));
+
+
+--query t?i ?u
+SELECT /*+ GATHER_PLAN_STATISTICS */ DISTINCT PRO_ID, PRODUCT_NAME, STATUS
+FROM ((SELECT BRANCH_ID, E.PRO_ID, PRODUCT_NAME, STATUS
+        FROM ((SELECT C.PRO_ID, PRODUCT_NAME
+                FROM ((SELECT PRO_ID
+                        FROM ((SELECT BILL_ID FROM BILL
+                                WHERE EXTRACT(YEAR FROM BILL_DATE) = 2022 AND EXTRACT(MONTH FROM BILL_DATE) = 3) A
+                                INNER JOIN (SELECT BILL_ID, PRO_ID
+                                            FROM BILL_DETAILS WHERE AMOUNT > 2) B
+                                            ON A.BILL_ID = B.BILL_ID)) C
+                        INNER JOIN (SELECT PRO_ID, PRODUCT_NAME
+                                    FROM PRODUCT) D ON C.PRO_ID = D.PRO_ID)) E
+                INNER JOIN (SELECT BRANCH_ID, PRO_ID, STATUS
+                            FROM WAREHOUSE_SALES) F ON E.PRO_ID = F.PRO_ID)) G
+        INNER JOIN (SELECT BRANCH_ID
+                    FROM BRANCH WHERE BRANCH_NAME = 'Mini mart Quan 9') H
+                    ON G.BRANCH_ID = H.BRANCH_ID);
+
+SELECT * FROM TABLE(DBMS_XPLAN.display_cursor(format=>'ALLSTATS LAST'));
