@@ -1,0 +1,305 @@
+--PHÂN QUYÊN
+
+--CHI NHÁNH 1 (MÁY TRÂN)
+
+alter session set "_ORACLE_SCRIPT" = true;
+
+--TÀI KHOẢN CN1;
+create user cn1 identified by cn1;
+grant connect, dba to cn1;
+
+--TÀI KHOẢN GiamDoc
+create user GiamDoc identified by giamdoc;
+grant connect to GiamDoc;
+
+--Xem được thông tin của các quan hệ, BILL, BILL_DETAILS, WAREHOUSE_MANAGEMENT, WAREHOUSE_SALES, CUSTOMER, PRODUCT
+grant select on CN1.BILL to GiamDoc;
+grant select on CN1.BILL_DETAILS to GiamDoc;
+grant select on CN1.WAREHOUSE_MANAGEMENT to GiamDoc;
+grant select on CN1.WAREHOUSE_SALES to GiamDoc;
+grant select on CN1.CUSTOMER to GiamDoc;
+grant select on CN1.PRODUCT to GiamDoc;
+
+--Xem, thêm, sửa, xóa được thông tin của các quan hệ EMPLOYEE của CN1
+grant select, insert, update, delete on CN1.EMPLOYEE to GiamDoc;
+
+--TÀI KHOẢN QuanLyKho
+create user QuanLyKho identified by quanlykho;
+grant connect to QuanLyKho;
+
+--Xem, thêm, sửa, xóa được thông tin của các quan hệ WAREHOUSE_MANAGEMENT, WAREHOUSE_SALES của chi nhánh 1
+grant select, insert, update, delete on CN1.WAREHOUSE_MANAGEMENT to QuanLyKho;
+grant select, insert, update, delete on CN1.WAREHOUSE_SALES to QuanLyKho;
+
+--xem, thêm sửa xóa được thông tin PRODUCT ở CN1
+grant select on CN1.PRODUCT to QuanLyKho;
+
+--TÀI KHOẢN NhanVien
+create user NhanVien identified by nhanvien;
+grant connect to NhanVien;
+
+--Xem, thêm được thông tin của các quan hệ BILL, BILL_DETAILS ở chi nhánh 1
+grant select, insert on CN1.BILL to NhanVien;
+grant select, insert on CN1.BILL_DETAILS to NhanVien;
+
+--Xem, thêm, sửa xóa được thông tin CUSTOMER ở CN1
+grant select, insert, update, delete on CN1.CUSTOMER to NhanVien;
+
+--TÀI KHOẢN CN2
+create user cn2 identified by cn2;
+grant connect to cn2;
+
+grant select on CN1.BILL_DETAILS to cn2;
+grant select on CN1.BILL to cn2;
+grant select on CN1.WAREHOUSE_SALES to cn2;
+grant select on CN1.WAREHOUSE_MANAGEMENT to cn2;
+grant select on CN1.PRODUCT to cn2;
+grant select on CN1.CUSTOMER to cn2;
+grant select on CN1.EMPLOYEE to cn2;
+--QuanLyKho Xem được thông tin WAREHOUSE_MANAGEMENT, WAREHOUSE_SALES ở chi nhánh 2
+grant select on CN2.WAREHOUSE_MANAGEMENT to QuanLyKho;
+grant select on CN2.WAREHOUSE_SALES to QuanLyKho;
+
+
+--CREATE DATABASE LINK
+create public database link cn2_link connect to cn1 identified by cn1 using 'CN2';
+create public database link cn2_link_giamdoc connect to GiamDoc identified by giamdoc using 'CN2';
+create public database link cn2_link_nhanvien connect to NhanVien identified by nhanvien using 'CN2';
+create public database link cn2_link_quanlykho connect to QuanLyKho identified by quanlykho using 'CN2';
+
+
+
+--CHI NHÁNH 2 (MÁY QUYÊN)
+
+alter session set "_ORACLE_SCRIPT"=true;
+
+--Tạo user và phân quyền
+--USER CN2
+create user cn2 identified by cn2;
+grant connect, dba to cn2;
+
+--Tài khoản GiamDoc
+create user GiamDoc identified by giamdoc;
+grant connect to GiamDoc;
+
+--Xem được thông tin của các quan hệ, BILL, BILL_DETAILS, WAREHOUSE_MANAGEMENT, WAREHOUSE_SALES, CUSTOMER, PRODUCT
+grant select on CN2.BILL to GiamDoc;
+grant select on CN2.BILL_DETAILS to GiamDoc;
+grant select on CN2.WAREHOUSE_MANAGEMENT to GiamDoc;
+grant select on CN2.WAREHOUSE_SALES, to GiamDoc;
+grant select on CN2.CUSTOMER to GiamDoc;
+grant select on CN2.PRODUCT to GiamDoc;
+
+--Xem, thêm, sửa, xóa được thông tin của các quan hệ EMPLOYEE của CN2
+grant select, insert, update, delete on CN2.EMPLOYEE to GiamDoc;
+
+
+--Tài khoản QuanLyKho
+create user QuanLyKho identified by quanlykho;
+grant connect to QuanLyKho;
+
+--Xem, thêm, sửa, xóa được thông tin của các quan hệ WAREHOUSE_MANAGEMENT, WAREHOUSE_SALES của chi nhánh 2
+grant select, insert, update, delete on CN2.WAREHOUSE_MANAGEMENT to QuanLyKho;
+grant select, insert, update, delete on CN2.WAREHOUSE_SALES to QuanLyKho;
+
+--xem, thêm sửa xóa được thông tin PRODUCT ở CN2
+grant select on CN2.PRODUCT to QuanLyKho;
+
+
+--Tài khoản NhanVien
+create user NhanVien identified by nhanvien;
+grant connect to NhanVien;
+
+--Xem, thêm được thông tin của các quan hệ BILL, BILL_DETAILS ở chi nhánh 2
+grant select, insert on CN2.BILL to NhanVien;
+grant select, insert on CN2.BILL_DETAILS to NhanVien;
+
+--Xem, thêm, sửa xóa được thông tin CUSTOMER ở CN2
+grant select, insert, update, delete on CN2.CUSTOMER to NhanVien;
+
+
+--TÀI KHOẢN CN1
+create user cn1 identified by cn1;
+grant connect to cn1;
+
+grant select on CN2.BILL_DETAILS to cn1;
+grant select on CN2.BILL to cn1;
+grant select on CN2.WAREHOUSE_SALES to cn1;
+grant select on CN2.WAREHOUSE_MANAGEMENT to cn1;
+grant select on CN2.PRODUCT to cn1;
+grant select on CN2.CUSTOMER to cn1;
+grant select on CN2.EMPLOYEE to cn1;
+--QuanLyKho Xem được thông tin WAREHOUSE_MANAGEMENT, WAREHOUSE_SALES ở chi nhánh 1
+grant select on CN1.WAREHOUSE_MANAGEMENT to QuanLyKho;
+grant select on CN1.WAREHOUSE_SALES to QuanLyKho;
+
+--Tạo public database link
+create public database link cn1_link connect to cn2 identified by cn2 using 'CN1';
+create public database link cn1_link_nhanvien connect to NhanVien identified by nhanvien using 'CN1';
+create public database link cn1_link_quanlykho connect to QuanLyKho identified by quanlykho using 'CN1';
+
+
+--10 CÂU QUERY
+
+
+--CÂU 1.( CN1 THỰC HIỆN )
+--"Giám đốc", thực hiên truy vấn cho biết ở CN1 có sản phẩm (PRO_ID, PRODUCT_NAME, COUNTRY, SALE_PRICE, SUM_AMOUNT) nào 
+--có nước sản xuất là 'USA' và bán được hơn 5 sản phẩm
+
+SELECT  P2.PRO_ID, P2.PRODUCT_NAME, P2.COUNTRY, P2.SALE_PRICE,  SUM(AMOUNT) AS SUM_AMOUNT
+FROM    CN2.PRODUCT@cn2_link_giamdoc P2, CN2.BILL_DETAILS@cn2_link_giamdoc BD2
+WHERE   P2.COUNTRY = 'USA' AND P2.PRO_ID = BD2.PRO_ID
+HAVING  SUM(BD2.AMOUNT)>=5
+GROUP BY P2.PRO_ID, P2.PRODUCT_NAME, P2.COUNTRY, P2.SALE_PRICE;
+
+
+--2. (CN1 THỰC HIỆN)
+--"Giám đốc", Thống kê tình trạng bán hàng các sản phẩm (PRO_ID, PRO_ID, PRODUCT_NAME, SUM(AMOUNT)) trên toàn bộ hệ thống minimart
+
+SELECT PROID, PRONAME, COALESCE(SUM(SL_BANDUOC), 0) AS SL_BANDUOC
+FROM (
+    SELECT  P2.PRO_ID AS PROID, P2.PRODUCT_NAME AS PRONAME , COALESCE(SUM(BD2.AMOUNT), 0) AS SL_BANDUOC
+    FROM    CN2.PRODUCT@cn2_link_giamdoc P2
+    LEFT JOIN CN2.BILL_DETAILS BD2
+    ON P2.PRO_ID = BD2.PRO_ID
+    GROUP BY P2.PRO_ID, P2.PRODUCT_NAME
+    
+    UNION ALL
+    SELECT  P1.PRO_ID AS PROID, P1.PRODUCT_NAME AS PRONAME , COALESCE(SUM(BD1.AMOUNT), 0) AS SL_BANDUOC
+    FROM    CN1.PRODUCT P1
+    LEFT JOIN CN1.BILL_DETAILS BD1
+    ON P1.PRO_ID = BD1.PRO_ID
+    GROUP BY P1.PRO_ID, P1.PRODUCT_NAME)
+GROUP BY PROID, PRONAME;
+
+--PHÉP TRỪ
+-- CÂU 3(THỰC HIỆN Ở CHI NHÁNH 2)
+--"Quản lý kho" ở chi nhánh 2: Liệt kê ra những sản phẩm (PRO_ID, PRODUCT_NAME) đã nhập kho ở CN2 nhưng không được nhập kho ở CN1
+
+SELECT P2.PRO_ID, P2.PRODUCT_NAME
+FROM CN2.PRODUCT P2, CN2.WAREHOUSE_MANAGEMENT@cn2_link_quanlykho WM2
+WHERE P2.PRO_ID = WM2.PRO_ID
+MINUS
+SELECT P1.PRO_ID, P1.PRODUCT_NAME
+FROM CN1.PRODUCT@cn1_link_quanlykho P1, CN1.WAREHOUSE_MANAGEMENT@cn1_link_quanlykho WM1
+WHERE P1.PRO_ID = WM1.PRO_ID;
+
+
+--PHÉP HỢP
+--CÂU 4: (THỰC HIỆN ở chi nhánh 2)
+--"Nhan viên bán hàng ở chi nhánh 2" Liệt kê ra những khách hàng đã mua hàng ở chi nhánh mình làm việc 
+--và cũng mua ở những chi nhánh còn lại
+
+SELECT DISTINCT C1.CUS_ID, C1.FIRST_NAME || ' ' || C1.LAST_NAME AS HO_TEN
+FROM CN1.CUSTOMERcn1_link_nhanvien C1, CN1.BILLcn1_link_nhanvien B1
+WHERE C1.CUS_ID = B1.CUS_ID
+UNION
+SELECT DISTINCT C2.CUS_ID, C2.FIRST_NAME || ' ' || C2.LAST_NAME AS HO_TEN
+FROM CN2.CUSTOMER C2, CN2.BILL B2
+WHERE C2.CUS_ID = B2.CUS_ID;
+
+--PHÉP GIAO
+--CÂU 5: (THỰC HIỆN Ở CHI NHÁNH 1)
+--"Thủ kho ở chi nhanh 1 "Liệt kê ra danh sách những sản phẩm (PRO_ID, PRODUCT_NAME) 'Còn hàng' 
+--ở chi nhánh mình
+--và cũng hết hàng ở chi nhánh còn lại
+
+SELECT P1.PRO_ID, P1.PRODUCT_NAME
+FROM CN1.PRODUCT P1, CN1.WAREHOUSE_SALES WS1
+WHERE P1.PRO_ID = WS1.PRO_ID
+AND WS1.STATUS = 'Còn hàng'
+INTERSECT
+SELECT P2.PRO_ID, P2.PRODUCT_NAME
+FROM CN2.PRODUCT@cn2_link_quanlykho P2, CN2.WAREHOUSE_SALES@cn2_link_quanlykho WS2
+WHERE P2.PRO_ID = WS2.PRO_ID
+AND WS2.STATUS = 'Còn hàng';
+
+
+--PHÉP CHIA
+--CÂU 6. (THỰC HIỆN Ở CHI NHÁNH 1)
+--"Giám đốc" tìm khách hàng đã mua tất cả những sản phẩm có nước sản xuất là 'VietNam'
+
+SELECT  C1.CUS_ID, C1.FIRST_NAME || ' ' || C1.LAST_NAME AS HO_TEN
+FROM    CN1.CUSTOMER C1
+WHERE   NOT EXISTS  (SELECT *
+                    FROM    CN1.PRODUCT P1
+                    WHERE   P1.COUNTRY = 'VietNam'
+                    AND     NOT EXISTS  (SELECT * FROM  (
+                                                        (SELECT * FROM CN1.BILL B1, CN1.BILL_DETAILS BD1
+                                                        WHERE   B1.CUS_ID = C1.CUS_ID
+                                                        AND     BD1.BILL_ID = B1.BILL_ID
+                                                        AND     BD1.PRO_ID = P1.PRO_ID)
+                                                        UNION
+                                                        (SELECT * FROM CN2.BILL@cn2_link_giamdoc B2, CN2.BILL_DETAILS@cn2_link_giamdoc BD2
+                                                        WHERE   B2.CUS_ID = C1.CUS_ID
+                                                        AND     BD2.BILL_ID = B2.BILL_ID
+                                                        AND     BD2.PRO_ID = P1.PRO_ID))));
+
+
+--HÀM GOM NHÓM VÀ TÍNH TOÁN      
+                                  
+--CÂU 7: (THỰC HIỆN Ở CHI NHÁNH 1)
+--"Giám đốc" Liệt kê top 5 sản phẩm bán chạy (PRO_ID, PRODUCT_NAME, SUM(AMOUNT)) trong toàn bộ hệ thống MiniMart
+
+SELECT  MASP, TENSP, SUM(SOLUONGBANDUOC) AS TONGBANDUOC
+FROM    (SELECT P1.PRO_ID AS MASP, P1.PRODUCT_NAME AS TENSP, SUM(BD1.AMOUNT) AS SOLUONGBANDUOC
+        FROM    CN1.PRODUCT P1, CN1.BILL_DETAILS BD1
+        WHERE   P1.PRO_ID = BD1.PRO_ID
+        GROUP BY P1.PRO_ID, P1.PRODUCT_NAME
+        UNION ALL
+        SELECT  P2.PRO_ID AS MASP, P2.PRODUCT_NAME AS TENSP, SUM(BD2.AMOUNT) AS SOLUONGBANDUOC
+        FROM    CN2.PRODUCT@cn2_link_giamdoc P2, CN2.BILL_DETAILS@cn2_link_giamdoc BD2
+        WHERE   P2.PRO_ID = BD2.PRO_ID
+        GROUP BY P2.PRO_ID, P2.PRODUCT_NAME)
+GROUP BY MASP, TENSP
+ORDER BY TONGBANDUOC DESC
+FETCH NEXT 5 ROWS ONLY;
+
+--CÂU 8. (THỰC HIỆN Ở CHI NHÁNH 1)
+--"Giám đốc" Liệt kê số lượng các nhân viên làm việc tại từng chi nhánh
+
+SELECT  MACN, SOLUONGNHANVIEN
+FROM    (SELECT E1.BRANCH_ID AS MACN, COUNT(E1.EMP_ID) AS SOLUONGNHANVIEN
+        FROM    CN1.EMPLOYEE E1
+        WHERE   E1.BRANCH_ID = 'CN1'
+        GROUP BY E1.BRANCH_ID
+        UNION ALL
+        SELECT E2.BRANCH_ID AS MACN, COUNT(E2.EMP_ID) AS SOLUONGNHANVIEN
+        FROM    CN2.EMPLOYEE@cn2_link_giamdoc E2
+        WHERE   E2.BRANCH_ID = 'CN2'
+        GROUP BY E2.BRANCH_ID);
+        
+--CÂU 9. (THỰC HIỆN Ở CHI NHÁNH 1)
+--"Giám đốc" Tìm khách hàng đã mua ít nhất 3 lần và được ít nhất 2 nhân viên thanh toán trên toàn bộ hệ thống MiniMart
+
+SELECT  MAKH, HO_TEN, SUM(SO_LAN_MUA) AS TONG_SO_LAN_MUA, SUM(SO_NV_THANHTOAN) AS TONG_SO_NV_THANHTOAN
+FROM
+    (SELECT  C1.CUS_ID AS MAKH, C1.FIRST_NAME || ' ' || C1.LAST_NAME AS HO_TEN, COUNT(B1.BILL_ID) AS SO_LAN_MUA, COUNT(B1.EMP_ID) AS SO_NV_THANHTOAN
+    FROM    CN1.CUSTOMER C1, CN1.BILL B1
+    WHERE   C1.CUS_ID = B1.CUS_ID
+    GROUP BY C1.CUS_ID, C1.FIRST_NAME || ' ' || C1.LAST_NAME
+    UNION ALL
+    SELECT  C2.CUS_ID, C2.FIRST_NAME || ' ' || C2.LAST_NAME AS HO_TEN, COUNT(B2.BILL_ID) AS SO_LAN_MUA, COUNT(B2.EMP_ID) AS SO_NV_THANHTOAN
+    FROM    CN2.CUSTOMER@cn2_link_giamdoc C2, CN2.BILL@cn2_link_giamdoc B2
+    WHERE   C2.CUS_ID = B2.CUS_ID
+    GROUP BY C2.CUS_ID, C2.FIRST_NAME || ' ' || C2.LAST_NAME)
+GROUP BY MAKH, HO_TEN
+HAVING SUM(SO_LAN_MUA) >= 3 AND SUM(SO_NV_THANHTOAN) >= 2;
+
+--CÂU 10. (THỰC HIỆN TẠI CHI NHÁNH 1)
+--"Giám đốc" Tìm sản phẩm được mua nhiều nhất tại từng chi nhánh
+
+(SELECT P1.PRO_ID AS MASP, P1.PRODUCT_NAME AS TENSP, WM1.BRANCH_ID AS MACN, SUM(BD1.AMOUNT) AS SL_BANDUOC
+FROM    CN1.PRODUCT P1, CN1.BILL_DETAILS BD1, CN1.WAREHOUSE_MANAGEMENT WM1
+WHERE   P1.PRO_ID = BD1.PRO_ID AND P1.PRO_ID = WM1.PRO_ID
+GROUP BY P1.PRO_ID, P1.PRODUCT_NAME, WM1.BRANCH_ID
+ORDER BY SUM(BD1.AMOUNT) DESC
+FETCH FIRST 1 ROW WITH TIES)
+UNION
+(SELECT P2.PRO_ID AS MASP, P2.PRODUCT_NAME AS TENSP, WM2.BRANCH_ID AS MACN, SUM(BD2.AMOUNT) AS SL_BANDUOC
+FROM    CN2.PRODUCT@cn2_link_giamdoc P2, CN2.BILL_DETAILS@cn2_link_giamdoc BD2, CN2.WAREHOUSE_MANAGEMENT@cn2_link_giamdoc WM2
+WHERE   P2.PRO_ID = BD2.PRO_ID AND P2.PRO_ID = WM2.PRO_ID
+GROUP BY P2.PRO_ID, P2.PRODUCT_NAME, WM2.BRANCH_ID
+ORDER BY SUM(BD2.AMOUNT) DESC
+FETCH FIRST 1 ROW WITH TIES);
+
